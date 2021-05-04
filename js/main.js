@@ -10,7 +10,7 @@ const init = () => {
 	const gridHelper = new THREE.GridHelper(50, 50);
 	scene.add(gridHelper);
 
-	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+	camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setClearColor(0xcbcba9, 1)
@@ -93,7 +93,7 @@ const createPoint = (point, color, size) => {
 	return newPoint;
 }
 
-const createCylinder = (pointX, pointY, material) => {
+const createCylinder = (pointX, pointY, color) => {
 	const direction = new THREE.Vector3().subVectors(pointY, pointX);
 	const orientation = new THREE.Matrix4();
 	orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
@@ -104,7 +104,7 @@ const createCylinder = (pointX, pointY, material) => {
 		0, 0, 0, 1
 	));
 	var edgeGeometry = new THREE.CylinderGeometry(0.2, 0.2, direction.length(), 8, 1);
-	var edge = new THREE.Mesh(edgeGeometry, material);
+	var edge = new THREE.Mesh(edgeGeometry, new THREE.MeshLambertMaterial({ color }));
 	edge.applyMatrix4(orientation);
 
 	edge.position.x = (pointY.x + pointX.x) / 2;
@@ -132,20 +132,20 @@ const createHexahedron = () => {
 	for (var i = 0; i < points.length; i++)
 		figure.add(createPoint(points[i], color, 0.5));
 
-	figure.add(createCylinder(points[0], points[1], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[1], points[3], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[2], points[0], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[3], points[2], new THREE.MeshLambertMaterial({ color })));
+	figure.add(createCylinder(points[0], points[1], color));
+	figure.add(createCylinder(points[1], points[3], color));
+	figure.add(createCylinder(points[2], points[0], color));
+	figure.add(createCylinder(points[3], points[2], color));
 
-	figure.add(createCylinder(points[0], points[4], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[1], points[5], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[2], points[6], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[3], points[7], new THREE.MeshLambertMaterial({ color })));
+	figure.add(createCylinder(points[0], points[4], color));
+	figure.add(createCylinder(points[1], points[5], color));
+	figure.add(createCylinder(points[2], points[6], color));
+	figure.add(createCylinder(points[3], points[7], color));
 
-	figure.add(createCylinder(points[4], points[5], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[4], points[6], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[5], points[7], new THREE.MeshLambertMaterial({ color })));
-	figure.add(createCylinder(points[6], points[7], new THREE.MeshLambertMaterial({ color })));
+	figure.add(createCylinder(points[4], points[5], color));
+	figure.add(createCylinder(points[4], points[6], color));
+	figure.add(createCylinder(points[5], points[7], color));
+	figure.add(createCylinder(points[6], points[7], color));
 
 	return figure;
 }
@@ -166,21 +166,21 @@ const createOctahedron = () => {
 	for (var i = 0; i < points.length; i++)
 		figure.add(createPoint(points[i], color, 0.5));                   
 	
-	figure.add(createCylinder(points[0], points[2], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[1], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[0], points[3], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[0], points[2], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[3], points[1], new THREE.MeshLambertMaterial( { color } )));
+	figure.add(createCylinder(points[0], points[2], color));
+	figure.add(createCylinder(points[2], points[1], color));
+	figure.add(createCylinder(points[0], points[3], color));
+	figure.add(createCylinder(points[0], points[2], color));
+	figure.add(createCylinder(points[3], points[1], color));
 	
-	figure.add(createCylinder(points[0], points[4], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[1], points[4], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[4], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[3], points[4], new THREE.MeshLambertMaterial( { color } )));
+	figure.add(createCylinder(points[0], points[4], color));
+	figure.add(createCylinder(points[1], points[4], color));
+	figure.add(createCylinder(points[2], points[4], color));
+	figure.add(createCylinder(points[3], points[4], color));
 	
-	figure.add(createCylinder(points[0], points[5], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[1], points[5], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[5], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[3], points[5], new THREE.MeshLambertMaterial( { color } )));
+	figure.add(createCylinder(points[0], points[5], color));
+	figure.add(createCylinder(points[1], points[5], color));
+	figure.add(createCylinder(points[2], points[5], color));
+	figure.add(createCylinder(points[3], points[5], color));
 	
 	return figure;
 }
@@ -199,13 +199,13 @@ const createTetrahedron = () => {
 	for (var i = 0; i < points.length; i++)
 		figure.add(createPoint(points[i], color, 0.5));  
 
-	figure.add(createCylinder(points[2], points[3], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[1], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[3], points[1], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[0], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[3], points[0], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[2], points[1], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[1], points[0], new THREE.MeshLambertMaterial( { color } )));               
+	figure.add(createCylinder(points[2], points[3], color));
+	figure.add(createCylinder(points[2], points[1], color));
+	figure.add(createCylinder(points[3], points[1], color));
+	figure.add(createCylinder(points[2], points[0], color));
+	figure.add(createCylinder(points[3], points[0], color));
+	figure.add(createCylinder(points[2], points[1], color));
+	figure.add(createCylinder(points[1], points[0], color));               
 	return figure;
 }
 
@@ -245,38 +245,38 @@ const createDodecahedron = () => {
 	for (var i = 0; i < points.length; i++)
 		figure.add(createPoint(points[i], color, 0.5));  
 	
-	figure.add(createCylinder(points[0], points[1], new THREE.MeshLambertMaterial( { color } )));   
-	figure.add(createCylinder(points[1], points[2], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[2], points[3], new THREE.MeshLambertMaterial( { color } )));   
-	figure.add(createCylinder(points[3], points[4], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[4], points[0], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[2], points[6], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[6], points[8], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[6], points[8], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[8], points[5], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[5], points[3], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[9], points[6], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[9], points[7], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[9], points[10], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[10], points[1], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[12], points[0], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[11], points[12], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[11], points[10], new THREE.MeshLambertMaterial( { color } )));    
-	figure.add(createCylinder(points[13], points[14], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[13], points[18], new THREE.MeshLambertMaterial( { color } )));    
-	figure.add(createCylinder(points[13], points[19], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[18], points[15], new THREE.MeshLambertMaterial( { color } )));    
-	figure.add(createCylinder(points[19], points[16], new THREE.MeshLambertMaterial( { color } )));     
-	figure.add(createCylinder(points[19], points[13], new THREE.MeshLambertMaterial( { color } )));   
-	figure.add(createCylinder(points[4], points[16], new THREE.MeshLambertMaterial( { color } )));
-	figure.add(createCylinder(points[15], points[16], new THREE.MeshLambertMaterial( { color } )));    
-	figure.add(createCylinder(points[11], points[17], new THREE.MeshLambertMaterial( { color } )));   
-	figure.add(createCylinder(points[17], points[18], new THREE.MeshLambertMaterial( { color } )));  
-	figure.add(createCylinder(points[17], points[7], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[7], points[14], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[14], points[8], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[15], points[12], new THREE.MeshLambertMaterial( { color } ))); 
-	figure.add(createCylinder(points[19], points[5], new THREE.MeshLambertMaterial( { color } ))); 
+	figure.add(createCylinder(points[0], points[1], color));   
+	figure.add(createCylinder(points[1], points[2], color));  
+	figure.add(createCylinder(points[2], points[3], color));   
+	figure.add(createCylinder(points[3], points[4], color));  
+	figure.add(createCylinder(points[4], points[0], color));  
+	figure.add(createCylinder(points[2], points[6], color));  
+	figure.add(createCylinder(points[6], points[8], color));  
+	figure.add(createCylinder(points[6], points[8], color));  
+	figure.add(createCylinder(points[8], points[5], color));  
+	figure.add(createCylinder(points[5], points[3], color));  
+	figure.add(createCylinder(points[9], points[6], color));  
+	figure.add(createCylinder(points[9], points[7], color));  
+	figure.add(createCylinder(points[9], points[10], color));  
+	figure.add(createCylinder(points[10], points[1], color));  
+	figure.add(createCylinder(points[12], points[0], color)); 
+	figure.add(createCylinder(points[11], points[12], color));  
+	figure.add(createCylinder(points[11], points[10], color));    
+	figure.add(createCylinder(points[13], points[14], color));  
+	figure.add(createCylinder(points[13], points[18], color));    
+	figure.add(createCylinder(points[13], points[19], color)); 
+	figure.add(createCylinder(points[18], points[15], color));    
+	figure.add(createCylinder(points[19], points[16], color));     
+	figure.add(createCylinder(points[19], points[13], color));   
+	figure.add(createCylinder(points[4], points[16], color));
+	figure.add(createCylinder(points[15], points[16], color));    
+	figure.add(createCylinder(points[11], points[17], color));   
+	figure.add(createCylinder(points[17], points[18], color));  
+	figure.add(createCylinder(points[17], points[7], color)); 
+	figure.add(createCylinder(points[7], points[14], color)); 
+	figure.add(createCylinder(points[14], points[8], color)); 
+	figure.add(createCylinder(points[15], points[12], color)); 
+	figure.add(createCylinder(points[19], points[5], color)); 
 
 	figure.scale.set(1.014, 1.014, 1.014);
 	return figure;
